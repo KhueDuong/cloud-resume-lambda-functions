@@ -10,12 +10,12 @@ jobs:
       - name: checkout source code
         uses: actions/checkout@v3
       - name: Zip
-        run: cd GetViewCount && zip -r test.zip .
+        run: cd GetViewCount && zip -r GetViewCount.zip .
       - name: lambda deploy
         uses: appleboy/lambda-action@v0.2.0
         with:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: ${{ env.AWS_REGION }}
-          function_name: test
-          source: GetViewCount/test.zip
+          function_name: GetViewCount
+          source: GetViewCount/GetViewCount.zip
