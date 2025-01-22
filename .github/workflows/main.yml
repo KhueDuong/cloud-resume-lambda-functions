@@ -18,4 +18,4 @@ jobs:
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: ${{ env.AWS_REGION }}
           function_name: GetViewCount
-          source: GetViewCount/GetViewCount.zip
+          zip_file: GetViewCount/GetViewCount.zip
