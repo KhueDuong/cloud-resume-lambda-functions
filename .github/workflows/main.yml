@@ -1,7 +1,8 @@
 name: deploy to lambda
 on: [push]
+env:
+  AWS_REGION: ap-southeast-2
 jobs:
-
   deploy_source:
     name: deploy lambda from source
     runs-on: ubuntu-latest
