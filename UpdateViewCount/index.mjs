@@ -12,7 +12,6 @@ export const handler = async (event) => {
       $set: { details: event.details, lastVisited: event.lastVisited },
       $inc: { count: 1 }, // Increment the count field by 1
     };
-    console.log(event.details);
     const options = { upsert: true }; // Create the document if it doesn't exist
 
     const result = await collection.updateOne(filter, update, options);
@@ -23,7 +22,5 @@ export const handler = async (event) => {
       statusCode: 500,
       body: JSON.stringify({ message: "Internal server error" }),
     };
-  } finally {
-    await client.close();
   }
 };
