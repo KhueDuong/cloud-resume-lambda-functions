@@ -1,10 +1,15 @@
 import AWS from "aws-sdk";
+import {
+  MultipartParseError,
+  parseMultipartRequest,
+} from "@mjackson/multipart-parser";
 
 const s3 = new AWS.S3();
 
 export const handler = async (event) => {
   try {
-    const fileName = event.filename;
+    /*
+    const fileName = event.fileName;
     const fileContent = Buffer.from(event.fileContent, "base64");
 
     const uploadParams = {
@@ -15,12 +20,24 @@ export const handler = async (event) => {
     };
 
     await s3.upload(uploadParams).promise();
+    */
+
+    for await (let part of parseMultipartRequest(request)) {
+      console.log(part.name);
+      console.log(part.filename);
+
+      if (/^text\//.test(part.mediaType)) {
+        console.log(await part.text());
+      } else {
+        // TODO: part.body is a ReadableStream<Uint8Array>, stream it to a file
+      }
+    }
 
     return {
       statusCode: 200,
       body: JSON.stringify({
         message: "File uploaded successfully!",
-        fileName,
+        //fileName,
       }),
     };
   } catch (error) {
