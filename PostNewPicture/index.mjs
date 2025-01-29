@@ -33,12 +33,12 @@ export const handler = async (event) => {
     const insert = {
       author: author,
       uploadDate: uploadDate,
-      fileName: fileName,
+      fileName: randomizedFileName,
       URL: res.Location,
     };
     const options = { upsert: true }; // Create the document if it doesn't exist
 
-    const result = await collection.insertOne(update, options);
+    const result = await collection.insertOne(insert, options);
 
     return {
       statusCode: 200,
