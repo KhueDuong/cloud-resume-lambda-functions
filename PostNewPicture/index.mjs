@@ -40,7 +40,7 @@ export const handler = async (event) => {
     };
     const options = { upsert: true }; // Create the document if it doesn't exist
 
-    const result = await collection.updateOne(filter, update, options);
+    const result = await collection.updateOne(update, options);
 
     return {
       statusCode: 200,
