@@ -30,17 +30,15 @@ export const handler = async (event) => {
     const res = await s3.upload(uploadParams).promise();
 
     // upload metadata to db
-    const update = {
-      $set: {
-        author: author,
-        uploadDate: uploadDate,
-        fileName: fileName,
-        URL: res.Location,
-      },
+    const insert = {
+      author: author,
+      uploadDate: uploadDate,
+      fileName: fileName,
+      URL: res.Location,
     };
     const options = { upsert: true }; // Create the document if it doesn't exist
 
-    const result = await collection.updateOne(update, options);
+    const result = await collection.insertOne(update, options);
 
     return {
       statusCode: 200,
