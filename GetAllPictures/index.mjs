@@ -9,7 +9,8 @@ export const handler = async (event) => {
     const data = await collection.find().toArray();
 
     return {
-      data,
+      count: data.count,
+      pictures: data,
     };
   } catch (error) {
     console.error("Error in handler:", error);
