@@ -9,7 +9,7 @@ export const handler = async (event) => {
     const data = await collection.find().toArray();
 
     return {
-      count: data.count,
+      count: data.length,
       pictures: data,
     };
   } catch (error) {

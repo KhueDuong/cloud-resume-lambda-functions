@@ -32,8 +32,10 @@ export const handler = async (event) => {
     // upload metadata to db
     const insert = {
       author: author,
+      email: event.email,
       uploadDate: uploadDate,
       fileName: randomizedFileName,
+      description: event.description,
       URL: res.Location,
     };
     const options = { upsert: true }; // Create the document if it doesn't exist

@@ -9,7 +9,7 @@ export const handler = async (event) => {
     const db = await client.db("cloud-resume-data");
     const collection = await db.collection("Pictures");
     const data = await collection.findOneAndDelete({
-      _id: new ObjectId(event.id),
+      _id: new mongodb.ObjectId(event.id),
     });
 
     const deleteParams = {
