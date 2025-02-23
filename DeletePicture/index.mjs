@@ -9,14 +9,18 @@ export const handler = async (event) => {
     const db = await client.db("cloud-resume-data");
     const collection = await db.collection("Pictures");
     const data = await collection.findOneAndDelete({
-      _id: new mongodb.ObjectId(event.id),
+      _id: new ObjectId(event.id),
     });
 
     const deleteParams = {
       Bucket: "images-khuebanhzai.com",
       Key: data.fileName,
     };
-    const res = await s3.deleteObject(deleteParams).promise();
+    await s3.deleteObject(deleteParams).promise();
+
+    const res = {
+      message: "successfully deleted file: " + data.fileName,
+    };
 
     return {
       res,

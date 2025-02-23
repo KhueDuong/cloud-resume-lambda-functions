@@ -58,3 +58,14 @@ jobs:
           aws_region: ${{ env.AWS_REGION }}
           function_name: DeletePicture
           zip_file: DeletePicture/DeletePicture.zip
+
+      - name: Zip
+        run: cd GetVisitorGlobeData && npm i && zip -r DeletePicture.zip .
+      - name: lambda deploy
+        uses: appleboy/lambda-action@v0.2.0
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ env.AWS_REGION }}
+          function_name: GetVisitorGlobeData
+          zip_file: GetVisitorGlobeData/GetVisitorGlobeData.zip
