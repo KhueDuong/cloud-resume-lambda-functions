@@ -1,6 +1,3 @@
-import { MongoClient } from "mongodb";
-const client = new MongoClient(process.env.MONGODB_CONNECTION_STRING);
-
 export const handler = async (event) => {
   try {
     const db = await client.db("cloud-resume-data");
@@ -9,7 +6,7 @@ export const handler = async (event) => {
     const res = await collection.find().toArray();
 
     const visitorGlobeData = res
-      .filter((data) => data.details?.loc)
+      .filter((data) => data.details && data.details.loc)
       .map((data) => {
         const [latitude, longitude] = data.details.loc.split(",").map(Number); // Split & convert to numbers
         return {
