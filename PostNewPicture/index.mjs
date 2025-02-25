@@ -1,13 +1,15 @@
 import AWS from "aws-sdk";
 import { MongoClient } from "mongodb";
+import { LambdaClient, InvokeCommand } from "@aws-sdk/client-lambda";
+const LambdaClient = new LambdaClient();
 
-const client = new MongoClient(process.env.MONGODB_CONNECTION_STRING);
+const mongoClient = new MongoClient(process.env.MONGODB_CONNECTION_STRING);
 const s3 = new AWS.S3();
 
 export const handler = async (event) => {
   try {
     // connect to mongodb
-    const db = await client.db("cloud-resume-data");
+    const db = await mongoClient.db("cloud-resume-data");
     const collection = await db.collection("Pictures");
 
     // get file data
@@ -41,6 +43,20 @@ export const handler = async (event) => {
     const options = { upsert: true }; // Create the document if it doesn't exist
 
     const result = await collection.insertOne(insert, options);
+
+    //send email alert
+    const input = {
+      // InvocationRequest
+      FunctionName: "SendEmailAlert", // required
+      InvocationType: "Event" || "RequestResponse" || "DryRun",
+      LogType: "None" || "Tail",
+      Payload: JSON.stringify({
+        subject: "Somebody posted a new picture to khuebanhzai.com",
+        message: `author: ${event.author}\n email: ${event.email}\n description: ${event.description}\n URL: ${res.Location}\n `,
+      }),
+    };
+    const command = new InvokeCommand(input);
+    await client.send(command);
 
     return {
       statusCode: 200,
